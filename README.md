@@ -34,38 +34,38 @@ DROP TABLE IF EXISTS `token` ;
 
 
 CREATE TABLE IF NOT EXISTS `user`(
-	`id` 		 BIGINT NOT NULL AUTO_INCREMENT ,
+    `id` 	 BIGINT NOT NULL AUTO_INCREMENT ,
     `user_name`  VARCHAR(55) ,
     `password`	 VARCHAR(255) ,
-    `email`	     VARCHAR(100) ,
+    `email`      VARCHAR(100) ,
     `created_at` DATETIME ,	
-	`enabled`    BOOLEAN DEFAULT FALSE,
-    UNIQUE KEY (`user_name`) ,
+    `enabled`    BOOLEAN DEFAULT FALSE,
+    UNIQUE KEY  (`user_name`) ,
     PRIMARY KEY (`id`) 
 );
 
 
 CREATE TABLE IF NOT EXISTS `token`(
-	`id` 			BIGINT NOT NULL AUTO_INCREMENT ,
-	`token` 		VARCHAR(255) ,
-    `expiry_date` 	DATETIME ,
-	`user_id` 	BIGINT ,
-	FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ,
-	PRIMARY KEY (`id`) 
+`id` 		BIGINT NOT NULL AUTO_INCREMENT ,
+`token` 	VARCHAR(255) ,
+`expiry_date` 	DATETIME ,
+`user_id` 	BIGINT ,
+ FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ,
+ PRIMARY KEY (`id`) 
 );
 
 
 
 
 CREATE TABLE IF NOT EXISTS `subreddit`(
-	`id` BIGINT NOT NULL AUTO_INCREMENT ,
+    `id` BIGINT NOT NULL AUTO_INCREMENT ,
     `name` VARCHAR(55) ,
     `description` VARCHAR(255) ,
-	`user_id` BIGINT DEFAULT NULL ,
+    `user_id` BIGINT DEFAULT NULL ,
     `created_at` DATETIME ,
 
     PRIMARY KEY (`id`) ,
-    FOREIGN KEY (`user_id`)	 REFERENCES `user` (`id`) 
+    FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) 
 ); 
 
 CREATE TABLE IF NOT EXISTS `post`(
@@ -80,28 +80,28 @@ CREATE TABLE IF NOT EXISTS `post`(
 
     PRIMARY KEY (`id`) ,
     FOREIGN KEY (`user_id`)	     REFERENCES `user` (`id`) ,
-	FOREIGN KEY (`subreddit_id`) REFERENCES `subreddit` (`id`) 		
+    FOREIGN KEY (`subreddit_id`)     REFERENCES `subreddit` (`id`) 		
     
 );
 
 CREATE TABLE IF NOT EXISTS `comment`(
-	`id` 		BIGINT NOT NULL AUTO_INCREMENT ,
-    `text` 		VARCHAR(255) ,
-    `user_id` 	BIGINT DEFAULT NULL ,
-	`post_id` 	BIGINT DEFAULT NULL ,
+    `id`  	 BIGINT NOT NULL AUTO_INCREMENT ,
+    `text`  	 VARCHAR(255) ,
+    `user_id`  	 BIGINT DEFAULT NULL ,
+    `post_id` 	 BIGINT DEFAULT NULL ,
 
     PRIMARY KEY (`id`) ,
-    FOREIGN KEY (`user_id`)	REFERENCES `user` (`id`) ,
-	FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) 		
+    FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ,
+    FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) 		
     
 );
 
 CREATE TABLE `vote` (
-    `id` 			BIGINT AUTO_INCREMENT,
+    `id` 		BIGINT AUTO_INCREMENT,
     `vote_type` 	ENUM ('UPVOTE','DOWNVOTE') ,
     `post_id` 		BIGINT,
     `user_id` 		BIGINT,
     FOREIGN KEY (`post_id`) REFERENCES `post`(`id`),
     FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-	PRIMARY KEY (`id`) 
+    PRIMARY KEY (`id`) 
 );
